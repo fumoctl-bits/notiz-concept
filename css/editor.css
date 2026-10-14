@@ -1,0 +1,483 @@
+/* Apple Notes Editor Styles: Typography, Highlighting, Checklists, Formatting Sheet */
+
+.editor-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-card);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px 20px calc(var(--safe-bottom) + 80px) 20px;
+  position: relative;
+}
+
+.editor-date {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 14px;
+  letter-spacing: 0.2px;
+}
+
+.editor-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  border: none;
+  background: transparent;
+  width: 100%;
+  outline: none;
+  font-family: inherit;
+  margin-bottom: 12px;
+  line-height: 1.25;
+}
+
+.editor-title::placeholder {
+  color: var(--text-tertiary);
+}
+
+.editor-body {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  outline: none;
+  min-height: 250px;
+  caret-color: var(--ios-yellow);
+  word-break: break-word;
+}
+
+.editor-body p {
+  margin-bottom: 10px;
+}
+
+/* Headings inside Editor */
+.editor-body h1, .editor-body .heading-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 14px;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.editor-body h2, .editor-body .heading-heading {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 12px;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+}
+
+.editor-body h3, .editor-body .heading-subheading {
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 10px;
+  margin-bottom: 4px;
+  color: var(--text-primary);
+}
+
+.editor-body pre, .editor-body code, .editor-body .text-monostyled {
+  font-family: var(--font-mono);
+  background-color: var(--bg-input);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Apple Notes Highlight Styles (Matches screenshot 2) */
+.hl-yellow {
+  background-color: var(--hl-yellow-bg);
+  color: var(--hl-yellow-text);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.hl-pink {
+  background-color: var(--hl-pink-bg);
+  color: var(--hl-pink-text);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.hl-purple {
+  background-color: var(--hl-purple-bg);
+  color: var(--hl-purple-text);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.hl-mint {
+  background-color: var(--hl-mint-bg);
+  color: var(--hl-mint-text);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.hl-blue {
+  background-color: var(--hl-blue-bg);
+  color: var(--hl-blue-text);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+/* Apple Notes Checklist Items */
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 6px 0;
+  user-select: text;
+}
+
+.checklist-checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  margin-top: 2px;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+}
+
+.checklist-checkbox:hover {
+  border-color: var(--ios-yellow);
+}
+
+.checklist-checkbox.checked {
+  background-color: var(--ios-yellow);
+  border-color: var(--ios-yellow);
+  animation: checkPop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.checklist-checkbox.checked::after {
+  content: '';
+  width: 5px;
+  height: 9px;
+  border: solid #FFFFFF;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-bottom: 2px;
+}
+
+@keyframes checkPop {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.checklist-text {
+  flex: 1;
+  outline: none;
+  min-height: 22px;
+}
+
+.checklist-item.checked .checklist-text {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+}
+
+/* Tables inside Apple Notes */
+.note-table-wrapper {
+  margin: 12px 0;
+  overflow-x: auto;
+}
+
+.note-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.note-table th, .note-table td {
+  border: 1px solid var(--separator);
+  padding: 8px 10px;
+  min-width: 80px;
+}
+
+.note-table th {
+  background-color: var(--bg-input);
+  font-weight: 600;
+}
+
+/* Sketches & Drawings inside Notes */
+.sketch-embed-card {
+  margin: 14px 0;
+  border: 1px solid var(--separator-subtle);
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #ffffff;
+  position: relative;
+}
+
+.sketch-embed-img {
+  width: 100%;
+  display: block;
+  max-height: 240px;
+  object-fit: contain;
+  background-color: #fafaf9;
+}
+
+.sketch-delete-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Live Collaborator Presence Markers */
+.collab-presence-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-input);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.live-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #10B981;
+  box-shadow: 0 0 6px #10B981;
+  animation: pulseGreen 1.5s infinite;
+}
+
+@keyframes pulseGreen {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.8; }
+}
+
+.simulated-cursor {
+  display: inline-block;
+  position: relative;
+  width: 2px;
+  height: 1.2em;
+  background-color: var(--collab-sarah);
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+  margin: 0 1px;
+}
+
+.simulated-cursor-tag {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  background-color: var(--collab-sarah);
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Floating Accessory Keyboard Bar (Bottom) */
+.editor-toolbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: var(--bg-toolbar);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 0.5px solid var(--separator-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 8px 12px calc(var(--safe-bottom) + 8px) 12px;
+  z-index: 35;
+}
+
+.editor-tool-btn {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 16px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.editor-tool-btn:active {
+  background-color: rgba(142, 142, 147, 0.15);
+  transform: scale(0.95);
+}
+
+.editor-tool-btn.active {
+  background-color: var(--ios-yellow);
+  color: #FFFFFF;
+}
+
+.editor-tool-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Format Sheet (Aa Button Sheet) */
+.format-sheet {
+  background: var(--bg-sheet);
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  padding: 12px 16px calc(var(--safe-bottom) + 20px) 16px;
+}
+
+.format-segment-control {
+  display: flex;
+  background-color: var(--bg-input);
+  border-radius: 10px;
+  padding: 2px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+
+.format-segment-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 4px;
+  border-radius: 8px;
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.format-segment-btn.active {
+  background-color: var(--ios-yellow);
+  color: #FFFFFF;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.format-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-input);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 12px;
+}
+
+.format-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 16px;
+  height: 38px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.format-btn.active {
+  background-color: var(--bg-card);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: var(--ios-yellow);
+}
+
+.format-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Color Palette Picker */
+.highlight-palette {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 0;
+  margin-bottom: 8px;
+}
+
+.color-dot-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.color-dot-btn:active, .color-dot-btn.active {
+  transform: scale(1.2);
+  border-color: var(--text-primary);
+}
+
+.color-dot-yellow { background-color: #FEF08A; }
+.color-dot-pink { background-color: #FBCFE8; }
+.color-dot-purple { background-color: #E9D5FF; }
+.color-dot-mint { background-color: #A7F3D0; }
+.color-dot-blue { background-color: #BAE6FD; }
+.color-dot-clear {
+  background-color: transparent;
+  border: 2px dashed var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* Drawing Modal Canvas */
+.drawing-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  z-index: 150;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawing-canvas {
+  flex: 1;
+  touch-action: none;
+  background: #ffffff;
+  cursor: crosshair;
+}
+
+.drawing-toolbar {
+  background: #f8f8f8;
+  border-top: 1px solid #e0e0e0;
+  padding: 12px 16px calc(var(--safe-bottom) + 12px) 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

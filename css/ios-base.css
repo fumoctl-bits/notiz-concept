@@ -1,0 +1,225 @@
+/* Apple Notes Design System - iOS 17/18/26 Theme */
+:root {
+  /* Apple Notes Signature Gold / Yellow Accent */
+  --ios-yellow: #E3A008;
+  --ios-yellow-hover: #C68A06;
+  --ios-yellow-light: rgba(227, 160, 8, 0.15);
+  --ios-yellow-subtle: rgba(227, 160, 8, 0.08);
+
+  /* Highlight Colors (from Apple Notes iOS) */
+  --hl-yellow-bg: #FEF08A;
+  --hl-yellow-text: #854D0E;
+  --hl-pink-bg: #FBCFE8;
+  --hl-pink-text: #9D174D;
+  --hl-purple-bg: #E9D5FF;
+  --hl-purple-text: #6B21A8;
+  --hl-mint-bg: #A7F3D0;
+  --hl-mint-text: #065F46;
+  --hl-blue-bg: #BAE6FD;
+  --hl-blue-text: #075985;
+
+  /* Collaborator Colors */
+  --collab-sarah: #8B5CF6;
+  --collab-elena: #EC4899;
+  --collab-marcus: #10B981;
+  --collab-you: #E3A008;
+
+  /* Light Theme Defaults */
+  --bg-primary: #F2F2F7;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-input: #E3E3E8;
+  --bg-tag: #E9E9EB;
+  --bg-sheet: #FFFFFF;
+  --bg-toolbar: rgba(248, 248, 248, 0.88);
+
+  --text-primary: #000000;
+  --text-secondary: #8E8E93;
+  --text-tertiary: #C7C7CC;
+  --text-muted: #6B7280;
+
+  --separator: #E5E5EA;
+  --separator-subtle: rgba(60, 60, 67, 0.12);
+  --border-radius-card: 13px;
+  --border-radius-pill: 20px;
+  --border-radius-btn: 10px;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+  --shadow-sheet: 0 -8px 30px rgba(0, 0, 0, 0.12);
+
+  --font-system: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Dark Mode (System or forced class) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg-primary: #000000;
+    --bg-secondary: #1C1C1E;
+    --bg-card: #1C1C1E;
+    --bg-input: #2C2C2E;
+    --bg-tag: #2C2C2E;
+    --bg-sheet: #1C1C1E;
+    --bg-toolbar: rgba(28, 28, 30, 0.88);
+
+    --text-primary: #FFFFFF;
+    --text-secondary: #8E8E93;
+    --text-tertiary: #48484A;
+    --text-muted: #9CA3AF;
+
+    --separator: #38383A;
+    --separator-subtle: rgba(84, 84, 88, 0.36);
+
+    --hl-yellow-bg: rgba(234, 179, 8, 0.32);
+    --hl-yellow-text: #FEF08A;
+    --hl-pink-bg: rgba(244, 114, 182, 0.32);
+    --hl-pink-text: #FBCFE8;
+    --hl-purple-bg: rgba(192, 132, 252, 0.32);
+    --hl-purple-text: #E9D5FF;
+    --hl-mint-bg: rgba(52, 211, 153, 0.32);
+    --hl-mint-text: #A7F3D0;
+    --hl-blue-bg: rgba(56, 189, 248, 0.32);
+    --hl-blue-text: #BAE6FD;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg-primary: #000000;
+  --bg-secondary: #1C1C1E;
+  --bg-card: #1C1C1E;
+  --bg-input: #2C2C2E;
+  --bg-tag: #2C2C2E;
+  --bg-sheet: #1C1C1E;
+  --bg-toolbar: rgba(28, 28, 30, 0.88);
+
+  --text-primary: #FFFFFF;
+  --text-secondary: #8E8E93;
+  --text-tertiary: #48484A;
+  --text-muted: #9CA3AF;
+
+  --separator: #38383A;
+  --separator-subtle: rgba(84, 84, 88, 0.36);
+
+  --hl-yellow-bg: rgba(234, 179, 8, 0.32);
+  --hl-yellow-text: #FEF08A;
+  --hl-pink-bg: rgba(244, 114, 182, 0.32);
+  --hl-pink-text: #FBCFE8;
+  --hl-purple-bg: rgba(192, 132, 252, 0.32);
+  --hl-purple-text: #E9D5FF;
+  --hl-mint-bg: rgba(52, 211, 153, 0.32);
+  --hl-mint-text: #A7F3D0;
+  --hl-blue-bg: rgba(56, 189, 248, 0.32);
+  --hl-blue-text: #BAE6FD;
+}
+
+/* Reset and iOS Defaults */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-system);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Main Container: responsive mobile frame on desktop, 100% full screen on phone */
+#app-root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0b0b0d;
+}
+
+.device-viewport {
+  width: 100%;
+  height: 100%;
+  max-width: 480px;
+  background-color: var(--bg-primary);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+  transition: max-width 0.3s ease;
+}
+
+@media (max-width: 600px) {
+  .device-viewport {
+    max-width: 100%;
+    box-shadow: none;
+  }
+}
+
+/* iOS Views Layering and Smooth Transitions */
+.view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-primary);
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.25s ease;
+  overflow: hidden;
+  will-change: transform, opacity;
+  z-index: 10;
+}
+
+.view.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(100%);
+  z-index: 1;
+}
+
+.view.view-back {
+  transform: translateX(-25%);
+  opacity: 0.6;
+}
+
+.view.view-active {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 20;
+}
+
+/* Scroll Area with iOS inertia bouncing */
+.scroll-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 12px 16px 84px 16px;
+  position: relative;
+}
+
+/* Custom subtle scrollbar */
+.scroll-content::-webkit-scrollbar {
+  width: 5px;
+}
+.scroll-content::-webkit-scrollbar-thumb {
+  background: rgba(142, 142, 147, 0.3);
+  border-radius: 4px;
+}
+.scroll-content::-webkit-scrollbar-track {
+  background: transparent;
+}

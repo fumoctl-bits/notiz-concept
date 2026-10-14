@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Notes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Notes">
+  <meta name="theme-color" content="#F2F2F7">
+  <meta name="description" content="Apple Notes style notes app with real-time sharing and collaboration">
+
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="./icons/favicon.png">
+
+  <!-- Apple Notes CSS -->
+  <link rel="stylesheet" href="./css/ios-base.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/editor.css">
+</head>
+<body>
+
+<div id="app-root">
+  <main class="device-viewport" role="main">
+
+    <!-- 1. FOLDERS VIEW (Screen 1 from screenshots) -->
+    <section id="folders-view" class="view view-active" aria-label="Folders View">
+      <div class="nav-bar">
+        <div class="nav-left">
+          <button id="pwa-install-pill" class="tag-pill" style="display: none; background: var(--ios-yellow); color: #fff; font-weight: 600; font-size: 13px;" title="Install PWA">
+            📱 Install App
+          </button>
+        </div>
+        <div class="nav-right">
+          <button id="theme-toggle-btn" class="nav-btn nav-btn-icon" title="Toggle Dark/Light Mode" aria-label="Toggle theme">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+            </svg>
+          </button>
+          <button class="nav-btn" data-tab-switch="settings" title="Settings">Edit</button>
+        </div>
+      </div>
+
+      <h1 class="nav-title-large">Folders</h1>
+
+      <div class="search-container">
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          </svg>
+          <input type="text" id="folders-search-input" class="search-input" placeholder="Search" autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="scroll-content">
+        <!-- Quick Notes & Shared Inset Card -->
+        <div class="inset-card">
+          <div class="list-item" data-folder-id="quick">
+            <div class="item-icon-container">
+              <!-- Quick Notes Sparkle/Chart Icon -->
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+              </svg>
+            </div>
+            <div class="item-content">
+              <span class="item-title">Quick Notes</span>
+              <div class="item-count-badge">
+                <span id="count-quick">15</span>
+                <svg class="chevron-right" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="list-item" data-folder-id="shared">
+            <div class="item-icon-container">
+              <!-- Shared 2-person Silhouette Icon -->
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+              </svg>
+            </div>
+            <div class="item-content">
+              <span class="item-title" style="font-weight: 500;">Shared</span>
+              <div class="item-count-badge">
+                <span id="count-shared" style="background: var(--ios-yellow); color: white; padding: 1px 7px; border-radius: 12px; font-size: 13px; font-weight: 600;">16</span>
+                <svg class="chevron-right" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- iCloud Section -->
+        <div class="section-header collapsible" onclick="this.classList.toggle('section-collapsed')">
+          <span>iCloud</span>
+          <svg class="section-chevron" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+          </svg>
+        </div>
+
+        <div class="inset-card">
+          <div class="list-item" data-folder-id="all-icloud">
+            <div class="item-icon-container">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+            </div>
+            <div class="item-content">
+              <span class="item-title">All iCloud</span>
+              <div class="item-count-badge">
+                <span id="count-all-icloud">974</span>
+                <svg class="chevron-right" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="list-item" data-folder-id="notes">
+            <div class="item-icon-container">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+            </div>
+            <div class="item-content">
+              <span class="item-title">Notes</span>
+              <div class="item-count-badge">
+                <span id="count-notes">974</span>
+                <svg class="chevron-right" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="list-item" data-folder-id="inbox">
+            <div class="item-icon-container">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H4.99C3.88 3 3.01 3.89 3.01 5L3 19c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zm0 12h-4c0 1.66-1.35 3-3 3s-3-1.34-3-3H4.99V5H19v10z"/></svg>
+            </div>
+            <div class="item-content">
+              <span class="item-title">Inbox</span>
+              <div class="item-count-badge">
+                <span id="count-inbox">60</span>
+                <svg class="chevron-right" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="list-item" data-folder-id="today">
+            <div class="item-icon-container">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/></svg>
+            </div>
+            <div class="item-content">
+              <span class="item-title">Today</span>
+              <div class="item-count-badge">
+                <span id="count-today">2</span>
+                <svg class="chevron-right" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="list-item" data-folder-id="pdfs">
+            <div class="item-icon-container">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+            </div>
+            <div class="item-content">
+              <span class="item-title">PDFs</span>
+              <div class="item-count-badge">
+                <span id="count-pdfs">251</span>
+                <svg class="chevron-right" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tags Section -->
+        <div class="section-header collapsible" onclick="this.classList.toggle('section-collapsed')">
+          <span>Tags</span>
+          <svg class="section-chevron" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+          </svg>
+        </div>
+
+        <div class="tags-cloud">
+          <span class="tag-pill active" data-tag="#All Tags">#All Tags</span>
+          <span class="tag-pill" data-tag="#highlights">#highlights</span>
+          <span class="tag-pill" data-tag="#apps">#apps</span>
+          <span class="tag-pill" data-tag="#business">#business</span>
+          <span class="tag-pill" data-tag="#camping">#camping</span>
+          <span class="tag-pill" data-tag="#gear">#gear</span>
+          <span class="tag-pill" data-tag="#books">#books</span>
+          <span class="tag-pill" data-tag="#advice">#advice</span>
+          <span class="tag-pill" data-tag="#fitness">#fitness</span>
+          <span class="tag-pill" data-tag="#food">#food</span>
+          <span class="tag-pill" data-tag="#games">#games</span>
+          <span class="tag-pill" data-tag="#finance">#finance</span>
+        </div>
+      </div>
+
+      <!-- Bottom Toolbar -->
+      <nav class="bottom-toolbar">
+        <button id="btn-new-folder" class="toolbar-btn" title="New Folder">
+          <!-- Folder with Plus Icon -->
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 6h-8l-2-2H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-1 8h-3v3h-2v-3h-3v-2h3v-3h2v3h3v2z"/>
+          </svg>
+        </button>
+        <span id="folders-total-counter" class="toolbar-counter">974 Notes</span>
+        <button class="toolbar-btn btn-new-note" title="New Note">
+          <!-- Square with Pencil Compose Icon -->
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+          </svg>
+        </button>
+      </nav>
+    </section>
+
+    <!-- 2. NOTES LIST VIEW -->
+    <section id="notes-list-view" class="view hidden" aria-label="Notes List View">
+      <div class="nav-bar translucent">
+        <div class="nav-left">
+          <button id="back-to-folders-btn" class="nav-btn bold" title="Back to Folders">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            Folders
+          </button>
+        </div>
+        <div id="notes-list-title" class="nav-title-inline">Notes</div>
+        <div class="nav-right">
+          <button class="nav-btn nav-btn-icon" data-tab-switch="settings" title="Options">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="search-container" style="padding-top: 10px;">
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input type="text" id="notes-search-input" class="search-input" placeholder="Search" autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="scroll-content">
+        <div id="notes-cards-container" class="notes-container">
+          <!-- Dynamic Notes list cards -->
+        </div>
+      </div>
+
+      <nav class="bottom-toolbar">
+        <button class="toolbar-btn" data-tab-switch="folders" title="Folders">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+        </button>
+        <span id="notes-list-counter" class="toolbar-counter">0 Notes</span>
+        <button class="toolbar-btn btn-new-note" title="New Note">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+        </button>
+      </nav>
+    </section>
+
+    <!-- 3. NOTE EDITOR VIEW (Screen 2 from screenshots) -->
+    <section id="note-editor-view" class="view hidden" aria-label="Note Editor View">
+      <div class="nav-bar translucent">
+        <div class="nav-left">
+          <button id="back-to-notes-btn" class="nav-btn bold" title="Back to Notes">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            Notes
+          </button>
+        </div>
+
+        <div id="editor-collab-presence" class="collab-presence-bar" style="display: none;" title="Tap to view live collaborators" onclick="window.app.collab.openCollabModal()">
+          <span class="live-pulse-dot"></span>
+          <span>Collab</span>
+        </div>
+
+        <div class="nav-right">
+          <button id="editor-undo-btn" class="nav-btn nav-btn-icon" title="Undo">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg>
+          </button>
+          <button id="editor-redo-btn" class="nav-btn nav-btn-icon" title="Redo">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"/></svg>
+          </button>
+          <button id="editor-share-btn" class="nav-btn nav-btn-icon" title="Share and Collaborate" aria-label="Share">
+            <!-- iOS Share Icon (Square with up arrow) -->
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+            </svg>
+          </button>
+          <button id="editor-done-btn" class="nav-btn bold">Done</button>
+        </div>
+      </div>
+
+      <!-- Editor Content Canvas -->
+      <div class="editor-wrapper">
+        <div id="editor-note-date" class="editor-date">October 14, 2026 at 11:30 AM</div>
+        <input type="text" id="editor-note-title" class="editor-title" placeholder="Title" />
+        <div id="editor-note-body" class="editor-body" contenteditable="true" spellcheck="true" placeholder="Start typing..."></div>
+      </div>
+
+      <!-- Bottom Floating Accessory Toolbar -->
+      <nav class="editor-toolbar">
+        <button id="tool-format-btn" class="editor-tool-btn" title="Text Formatting (Aa)">
+          <span style="font-weight: 700; font-size: 17px;">Aa</span>
+        </button>
+        <button id="tool-checklist-btn" class="editor-tool-btn" title="Insert Checklist">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        </button>
+        <button id="tool-table-btn" class="editor-tool-btn" title="Insert Table">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 2v3H5V5h14zm-8 5v4H5v-4h6zm2 0h6v4h-6v-4zm-2 6v3H5v-3h6zm2 0h6v3h-6v-3z"/></svg>
+        </button>
+        <button id="tool-camera-btn" class="editor-tool-btn" title="Insert Attachment">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-1.5c0-2.33-4.67-3.5-7-3.5zM21 6h-3.17L16 4H8L6.17 6H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-9 13c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+        </button>
+        <button id="tool-pen-btn" class="editor-tool-btn" title="Handwriting / Sketch Pad">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+        </button>
+        <button id="tool-delete-btn" class="editor-tool-btn" title="Delete Note">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+        </button>
+      </nav>
+    </section>
+
+    <!-- 4. FORMAT SHEET OVERLAY (Aa Formatting Menu) -->
+    <div id="format-overlay" class="sheet-overlay">
+      <div class="sheet-container format-sheet">
+        <div class="sheet-handle-bar"></div>
+        <div class="sheet-header">
+          <span class="sheet-title">Format</span>
+          <button class="sheet-close-btn" onclick="document.getElementById('format-overlay').classList.remove('active')">✕</button>
+        </div>
+
+        <div class="sheet-body">
+          <!-- Segmented Style Control -->
+          <div class="format-segment-control">
+            <button class="format-segment-btn" data-style-block="title">Title</button>
+            <button class="format-segment-btn" data-style-block="heading">Heading</button>
+            <button class="format-segment-btn" data-style-block="subheading">Subheading</button>
+            <button class="format-segment-btn active" data-style-block="body">Body</button>
+            <button class="format-segment-btn" data-style-block="mono">Monostyled</button>
+          </div>
+
+          <!-- Bold, Italic, Underline, Strikethrough -->
+          <div class="format-row">
+            <button class="format-btn" data-exec-cmd="bold"><strong>B</strong></button>
+            <button class="format-btn" data-exec-cmd="italic"><em>I</em></button>
+            <button class="format-btn" data-exec-cmd="underline"><u>U</u></button>
+            <button class="format-btn" data-exec-cmd="strikeThrough"><s>S</s></button>
+          </div>
+
+          <!-- Apple Notes Highlighting Colors (yellow, pink, purple, mint, blue) -->
+          <div style="font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; text-transform: uppercase;">
+            Highlight Color
+          </div>
+          <div class="highlight-palette">
+            <button class="color-dot-btn color-dot-pink" data-hl-color="pink" title="Pink Highlight"></button>
+            <button class="color-dot-btn color-dot-purple" data-hl-color="purple" title="Purple Highlight"></button>
+            <button class="color-dot-btn color-dot-yellow" data-hl-color="yellow" title="Yellow Highlight"></button>
+            <button class="color-dot-btn color-dot-mint" data-hl-color="mint" title="Mint Highlight"></button>
+            <button class="color-dot-btn color-dot-blue" data-hl-color="blue" title="Blue Highlight"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. COLLABORATION & SHARE MODAL / SHEET -->
+    <div id="collab-modal" class="sheet-overlay">
+      <div class="sheet-container">
+        <div class="sheet-handle-bar"></div>
+        <div class="sheet-header">
+          <div>
+            <h3 class="sheet-title">Share & Collaborate</h3>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">Real-time sharing with iCloud sync</p>
+          </div>
+          <button id="collab-close-btn" class="sheet-close-btn">✕</button>
+        </div>
+
+        <div class="sheet-body">
+          <!-- Active Note Summary -->
+          <div class="collab-note-summary">
+            <div class="collab-note-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+            </div>
+            <div class="collab-note-meta">
+              <h4 id="collab-sheet-note-title">Highlight in Notes</h4>
+              <p id="collab-sheet-note-folder">In Notes • 3 Collaborators</p>
+            </div>
+          </div>
+
+          <!-- Sharing Action Buttons -->
+          <div class="collab-action-buttons">
+            <button id="collab-share-btn" class="collab-btn collab-btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+              Share Note
+            </button>
+            <button id="collab-copy-btn" class="collab-btn collab-btn-secondary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+              Copy Link
+            </button>
+          </div>
+
+          <!-- Interactive Live Collab Demo Banner -->
+          <div class="demo-banner">
+            <div class="demo-banner-header">
+              <span class="demo-tag">Live Demo</span>
+              <button id="collab-demo-sim-btn" class="nav-btn bold" style="padding: 2px 8px; font-size: 13px;">▶️ Simulate Partner</button>
+            </div>
+            <div class="demo-banner-title">Test Real-Time Collaboration</div>
+            <div class="demo-banner-desc">Tap to simulate Sarah Chen typing, highlighting, and checking tasks in real-time.</div>
+          </div>
+
+          <!-- Collaborators List -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin: 16px 0 8px 0;">
+            <span style="font-size: 13px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase;">People with Access</span>
+            <button id="collab-add-member-btn" class="nav-btn bold" style="padding: 0; font-size: 14px;">+ Invite Person</button>
+          </div>
+          <div id="collab-members-list">
+            <!-- Populated via CollabManager -->
+          </div>
+
+          <!-- Activity Stream -->
+          <div style="margin-top: 20px;">
+            <span style="font-size: 13px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase;">Recent Activity</span>
+            <div id="collab-activity-list" class="activity-list">
+              <!-- Populated via CollabManager -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. DRAWING / SKETCH PAD MODAL -->
+    <div id="drawing-modal" class="drawing-modal" style="display: none;">
+      <div class="nav-bar">
+        <div class="nav-left">
+          <button id="draw-cancel-btn" class="nav-btn">Cancel</button>
+        </div>
+        <div class="nav-title-inline">Sketch</div>
+        <div class="nav-right">
+          <button id="draw-clear-btn" class="nav-btn" style="color: #EF4444;">Clear</button>
+          <button id="draw-done-btn" class="nav-btn bold">Done</button>
+        </div>
+      </div>
+
+      <canvas id="sketch-canvas" class="drawing-canvas"></canvas>
+
+      <div class="drawing-toolbar">
+        <div style="display: flex; gap: 8px;">
+          <button class="color-dot-btn draw-color-btn active" data-color="#1C1C1E" style="background-color: #1C1C1E;"></button>
+          <button class="color-dot-btn draw-color-btn" data-color="#E3A008" style="background-color: #E3A008;"></button>
+          <button class="color-dot-btn draw-color-btn" data-color="#3B82F6" style="background-color: #3B82F6;"></button>
+          <button class="color-dot-btn draw-color-btn" data-color="#EF4444" style="background-color: #EF4444;"></button>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button class="tag-pill draw-width-btn" data-width="2" style="padding: 4px 10px;">Fine</button>
+          <button class="tag-pill draw-width-btn active" data-width="5" style="padding: 4px 10px;">Medium</button>
+          <button class="tag-pill draw-width-btn" data-width="12" style="padding: 4px 10px;">Marker</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. PWA INSTALL & PHONE PAIRING MODAL -->
+    <div id="install-modal" class="sheet-overlay">
+      <div class="sheet-container">
+        <div class="sheet-handle-bar"></div>
+        <div class="sheet-header">
+          <span class="sheet-title">Install on Mobile</span>
+          <button id="install-modal-close" class="sheet-close-btn">✕</button>
+        </div>
+        <div class="sheet-body" style="text-align: center;">
+          <div style="width: 64px; height: 64px; margin: 10px auto; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+            <img src="./icons/apple-touch-icon.png" width="64" height="64" alt="Notes Icon" />
+          </div>
+          <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 6px;">Install Apple Notes PWA</h4>
+          <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 20px;">Use Notes just like a native app on your phone with offline support.</p>
+
+          <div style="text-align: left; background: var(--bg-input); padding: 16px; border-radius: 12px; font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+            <p><strong>On iPhone (Safari):</strong></p>
+            <p>1. Tap the <strong>Share</strong> button <span style="font-size: 16px;">⎋</span> at the bottom.</p>
+            <p>2. Scroll down and tap <strong>Add to Home Screen</strong> ➕.</p>
+            <p>3. Tap <strong>Add</strong> in the top-right corner.</p>
+            <hr style="margin: 10px 0; border: none; border-top: 1px solid var(--separator-subtle);" />
+            <p><strong>On Android (Chrome):</strong></p>
+            <p>Tap the menu <strong>⋮</strong> and select <strong>Install app</strong> or <strong>Add to Home screen</strong>.</p>
+          </div>
+
+          <div id="qr-code-display" style="display: flex; justify-content: center; margin-bottom: 12px;"></div>
+          <p id="qr-url-text" style="font-size: 11px; color: var(--text-tertiary); word-break: break-all; font-family: var(--font-mono);"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. SETTINGS & EDIT MODAL -->
+    <div id="settings-modal" class="sheet-overlay">
+      <div class="sheet-container">
+        <div class="sheet-handle-bar"></div>
+        <div class="sheet-header">
+          <span class="sheet-title">Notes Settings</span>
+          <button id="settings-close-btn" class="sheet-close-btn">✕</button>
+        </div>
+        <div class="sheet-body">
+          <div class="inset-card" style="margin-bottom: 16px;">
+            <div class="list-item" onclick="window.app.toggleTheme()">
+              <div class="item-content">
+                <span class="item-title">Appearance</span>
+                <span style="font-size: 15px; color: var(--text-secondary);">Toggle Dark / Light</span>
+              </div>
+            </div>
+            <div class="list-item" onclick="window.app.pwa.showInstallInstructions()">
+              <div class="item-content">
+                <span class="item-title">Install PWA on Phone</span>
+                <span class="chevron-right">›</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="inset-card">
+            <div class="list-item" id="btn-reset-demo-data">
+              <div class="item-content">
+                <span class="item-title" style="color: #EF4444;">Reset to Default Demo Notes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. TOAST NOTIFICATION -->
+    <div id="ios-toast" class="ios-toast" role="status">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#10B981"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      <span id="toast-message">Note updated</span>
+    </div>
+
+  </main>
+</div>
+
+<!-- Scripts -->
+<script src="./js/storage.js"></script>
+<script src="./js/editor.js"></script>
+<script src="./js/collab.js"></script>
+<script src="./js/pwa.js"></script>
+<script src="./js/app.js"></script>
+
+</body>
+</html>

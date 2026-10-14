@@ -1,0 +1,766 @@
+/* Apple Notes Components: Navigation, Inset Groups, Search, Toolbars, Modals */
+
+/* 1. Header & Navigation Bars */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(var(--safe-top) + 10px) 16px 10px 16px;
+  background-color: var(--bg-primary);
+  min-height: 48px;
+  position: relative;
+  z-index: 30;
+}
+
+.nav-bar.translucent {
+  background: var(--bg-toolbar);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 0.5px solid var(--separator-subtle);
+}
+
+.nav-left, .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--ios-yellow);
+  font-size: 17px;
+  font-family: inherit;
+  font-weight: 400;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  border-radius: var(--border-radius-btn);
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+
+.nav-btn:active {
+  opacity: 0.6;
+}
+
+.nav-btn.bold {
+  font-weight: 600;
+}
+
+.nav-btn-icon {
+  width: 34px;
+  height: 34px;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--ios-yellow);
+}
+
+.nav-btn-icon:hover {
+  background-color: var(--ios-yellow-subtle);
+}
+
+.nav-title-large {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  padding: 0 16px 8px 16px;
+  color: var(--text-primary);
+}
+
+.nav-title-inline {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 2. iOS Search Bar */
+.search-container {
+  padding: 0 16px 12px 16px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-input);
+  border-radius: 10px;
+  padding: 8px 12px;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.search-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 17px;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: var(--text-secondary);
+}
+
+.search-clear-btn {
+  background: var(--text-tertiary);
+  border: none;
+  color: var(--bg-card);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  display: none;
+}
+
+.search-box.has-text .search-clear-btn {
+  display: flex;
+}
+
+/* 3. Inset Grouped Cards & Lists */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  padding: 16px 6px 8px 6px;
+}
+
+.section-header.collapsible {
+  cursor: pointer;
+}
+
+.section-chevron {
+  width: 14px;
+  height: 14px;
+  color: var(--ios-yellow);
+  transition: transform 0.2s ease;
+}
+
+.section-collapsed .section-chevron {
+  transform: rotate(-90deg);
+}
+
+.inset-card {
+  background-color: var(--bg-card);
+  border-radius: var(--border-radius-card);
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 12px;
+  cursor: pointer;
+  position: relative;
+  background-color: var(--bg-card);
+  transition: background-color 0.15s ease;
+}
+
+.list-item:active {
+  background-color: rgba(142, 142, 147, 0.1);
+}
+
+.list-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 48px;
+  right: 0;
+  bottom: 0;
+  height: 0.5px;
+  background-color: var(--separator-subtle);
+}
+
+.item-icon-container {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ios-yellow);
+  flex-shrink: 0;
+}
+
+.item-content {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-title {
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.item-count-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+.chevron-right {
+  width: 14px;
+  height: 14px;
+  color: var(--text-tertiary);
+}
+
+/* 4. Tags Section */
+.tags-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 0 16px 0;
+}
+
+.tag-pill {
+  background-color: var(--bg-tag);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: var(--border-radius-pill);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.tag-pill:active {
+  opacity: 0.7;
+}
+
+.tag-pill.active {
+  background-color: var(--ios-yellow);
+  color: #FFFFFF;
+}
+
+/* 5. Notes List Specifics */
+.notes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.notes-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 16px 4px 8px 4px;
+}
+
+.note-card-item {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px;
+  background-color: var(--bg-card);
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.15s ease;
+}
+
+.note-card-item:active {
+  background-color: rgba(142, 142, 147, 0.1);
+}
+
+.note-card-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 16px;
+  right: 0;
+  bottom: 0;
+  height: 0.5px;
+  background-color: var(--separator-subtle);
+}
+
+.note-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3px;
+}
+
+.note-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.note-card-pin {
+  width: 14px;
+  height: 14px;
+  color: var(--ios-yellow);
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+
+.note-card-snippet {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.35;
+}
+
+.note-card-date {
+  color: var(--text-primary);
+  font-weight: 400;
+  flex-shrink: 0;
+}
+
+.note-card-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.note-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.note-folder-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Collaborator Avatars on Notes */
+.collab-avatar-stack {
+  display: flex;
+  align-items: center;
+}
+
+.collab-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--bg-card);
+  margin-left: -6px;
+  text-transform: uppercase;
+}
+
+.collab-avatar:first-child {
+  margin-left: 0;
+}
+
+/* 6. Bottom iOS Blur Toolbar */
+.bottom-toolbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: var(--bg-toolbar);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 0.5px solid var(--separator-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px calc(var(--safe-bottom) + 12px) 20px;
+  z-index: 40;
+}
+
+.toolbar-btn {
+  background: none;
+  border: none;
+  color: var(--ios-yellow);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 8px;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.toolbar-btn:active {
+  opacity: 0.6;
+  transform: scale(0.95);
+}
+
+.toolbar-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.toolbar-counter {
+  font-size: 12px;
+  color: var(--text-primary);
+  font-weight: 400;
+}
+
+/* 7. Bottom Sheets & Modals */
+.sheet-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.sheet-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sheet-container {
+  background: var(--bg-sheet);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+  box-shadow: var(--shadow-sheet);
+  overflow: hidden;
+  padding-bottom: calc(var(--safe-bottom) + 16px);
+}
+
+.sheet-overlay.active .sheet-container {
+  transform: translateY(0);
+}
+
+.sheet-handle-bar {
+  width: 38px;
+  height: 5px;
+  background: var(--text-tertiary);
+  border-radius: 3px;
+  margin: 10px auto 4px auto;
+}
+
+.sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-bottom: 0.5px solid var(--separator-subtle);
+}
+
+.sheet-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.sheet-close-btn {
+  background: var(--bg-input);
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.sheet-body {
+  padding: 16px 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 8. Collaboration Hub & Share Components */
+.collab-note-summary {
+  background: var(--bg-input);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.collab-note-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--ios-yellow);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.collab-note-meta h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.collab-note-meta p {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.collab-action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.collab-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: none;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s ease, opacity 0.15s ease;
+}
+
+.collab-btn:active {
+  transform: scale(0.97);
+  opacity: 0.8;
+}
+
+.collab-btn-primary {
+  background: var(--ios-yellow);
+  color: #FFFFFF;
+}
+
+.collab-btn-secondary {
+  background: var(--bg-input);
+  color: var(--text-primary);
+}
+
+.collab-member-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 0.5px solid var(--separator-subtle);
+}
+
+.collab-member-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.member-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  position: relative;
+}
+
+.member-status-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--bg-sheet);
+}
+
+.status-online { background-color: #10B981; }
+.status-away { background-color: #F59E0B; }
+.status-offline { background-color: #9CA3AF; }
+
+.member-details h5 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.member-details p {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.member-role-select {
+  background: var(--bg-input);
+  color: var(--text-primary);
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  outline: none;
+}
+
+/* Collab Demo Card */
+.demo-banner {
+  background: linear-gradient(135deg, rgba(227, 160, 8, 0.15), rgba(139, 92, 246, 0.15));
+  border: 1px solid var(--ios-yellow);
+  border-radius: 12px;
+  padding: 14px;
+  margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.demo-banner-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.demo-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ios-yellow);
+  text-transform: uppercase;
+  background: var(--ios-yellow-light);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.demo-banner-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.demo-banner-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* Collab Activity Feed */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.activity-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.activity-text {
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.activity-text strong {
+  color: var(--text-primary);
+}
+
+.activity-time {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+/* 9. iOS Toast / Banner Alert */
+.ios-toast {
+  position: absolute;
+  top: calc(var(--safe-top) + 60px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: rgba(30, 30, 30, 0.9);
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 200;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.ios-toast.active {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
